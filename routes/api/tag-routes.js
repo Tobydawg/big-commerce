@@ -1,80 +1,21 @@
-// const router = require("express").Router();
-
-// const { Tag, Product, ProductTag } = require("../../models");
-
-// // The `/api/tags` endpoint
-
-// router.get("/", (req, res) => {
-//   //find all tags
-//   tag.findAll({
-//     include: [
-//       Product,
-//       {
-//         model: Tag,
-//         through: ProductTag,
-//         as: 'product_tag_id'
-//       }
-//     ]
-//   })
-//   .then((dbTagData) => res.json(dbTagData))
-//   .catch((err) =>{
-//     console.log(err);
-//     res.status(400).json(err);
-
-
-//   });
-// });
-// // be sure to include its associated Product data
-
-// router.get("/:id", (req, res) => {
-//   // find a single tag by its `id`
-//   // be sure to include its associated Product data
-//   Tag.findOne(
-//     {
-//       where: {
-//         id: req.params.id,
-//       },
-//     },
-//     {
-//       include: [
-//         Product,
-//         {
-//           model: Tag,
-//           through: ProductTag,
-//           as: 'product_tag_id',
-//         },
-//       ],
-//     }
-//   )
-//     .then((dbTagData) => res.json(dbTagData))
-//     .catch((err) => {
-//       console.log(err);
-//       res.status(400).json(err);
-//     });
-// });
-
-// router.post("/", (req, res) => {
-//   // create a new tag
-//   Tag.create(req.body, {
-
-//     //?????????????????????????????not sure
-//     where:{
-//       id: req.params.id,
-//     },
-//     })
-//     .then((dbTagData) => res.json (dbTagData))
 
 
 const router = require('express').Router();
 const { Tag, Product, ProductTag } = require('../../models');
+
+
 // The `/api/tags` endpoint
 router.get('/', (req, res) => {
   // find all tags
   Tag.findAll({
-    include: {
+    include: 
       // be sure to include its associated Product data
-      model: Product,
-    }
+      {
+        model: Product,
+        attributes: [ 'product_name'],
+        as: 'tag_product_id', 
+        }
+  
   }).then((dbPost) =>
   res.json(dbPost))
 .catch((err )=> {
@@ -82,6 +23,9 @@ router.get('/', (req, res) => {
   res.status(400).json(err);
 });
 });
+
+
+
 router.get('/:id', (req, res) => {
   // find a single tag by its `id`
   Tag.findOne({
@@ -90,7 +34,9 @@ router.get('/:id', (req, res) => {
     },
     // be sure to include its associated Product data
     include: {
-      model: Product
+      model: Product,
+      attributes: [ 'product_name'],
+      as: 'tag_product_id',
     }
   }).then((dbPost) =>
   res.json(dbPost))
@@ -198,3 +144,70 @@ module.exports = router;
 // });
 
 // module.exports = router;
+
+
+// const router = require("express").Router();
+
+// const { Tag, Product, ProductTag } = require("../../models");
+
+// // The `/api/tags` endpoint
+
+// router.get("/", (req, res) => {
+//   //find all tags
+//   tag.findAll({
+//     include: [
+//       Product,
+//       {
+//         model: Tag,
+//         through: ProductTag,
+//         as: 'product_tag_id'
+//       }
+//     ]
+//   })
+//   .then((dbTagData) => res.json(dbTagData))
+//   .catch((err) =>{
+//     console.log(err);
+//     res.status(400).json(err);
+
+
+//   });
+// });
+// // be sure to include its associated Product data
+
+// router.get("/:id", (req, res) => {
+//   // find a single tag by its `id`
+//   // be sure to include its associated Product data
+//   Tag.findOne(
+//     {
+//       where: {
+//         id: req.params.id,
+//       },
+//     },
+//     {
+//       include: [
+//         Product,
+//         {
+//           model: Tag,
+//           through: ProductTag,
+//           as: 'product_tag_id',
+//         },
+//       ],
+//     }
+//   )
+//     .then((dbTagData) => res.json(dbTagData))
+//     .catch((err) => {
+//       console.log(err);
+//       res.status(400).json(err);
+//     });
+// });
+
+// router.post("/", (req, res) => {
+//   // create a new tag
+//   Tag.create(req.body, {
+
+//     //?????????????????????????????not sure
+//     where:{
+//       id: req.params.id,
+//     },
+//     })
+//     .then((dbTagData) => res.json (dbTagData))
